@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package njan.flashcardseditor;
 
 import java.io.File;
@@ -36,7 +31,7 @@ public class CardSet {
     private static final String ns = null;
     private static final String CARD_SET_NAME = "CardSet";
     private static final String CARD_NAME = "Card";
-    private static final String ID_NAME = "ID";
+    private static final String ID_ATTRIBUTE = "ID";
     private static final String FRONT_NAME = "Front";
     private static final String BACK_NAME = "Back";
     private static final String NAME_ATTRIBUTE = "name";
@@ -83,16 +78,16 @@ public class CardSet {
             for (int i = 0; i < nodes.getLength(); ++i) {
                 Node node = nodes.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element ele = (Element) node;
+                    Element cardElement = (Element) node;
                     
-                    String id = null;
-                    NodeList idNodes = ele.getElementsByTagName(ID_NAME);
-                    if (idNodes.getLength() > 0) {
-                        id = idNodes.item(0).getTextContent();
-                    }
+                    // get id
+                    String id = cardElement.getAttribute(ID_ATTRIBUTE);
                     
-                    String front = ele.getElementsByTagName(FRONT_NAME).item(0).getTextContent();
-                    String back = ele.getElementsByTagName(BACK_NAME).item(0).getTextContent();
+                    // get front and back
+                    String front = cardElement.getElementsByTagName(FRONT_NAME).item(0).getTextContent();
+                    String back = cardElement.getElementsByTagName(BACK_NAME).item(0).getTextContent();
+                    
+                    // add card to set
                     cards.add(new Card(front, back, id));
                 }
             }
@@ -121,6 +116,10 @@ public class CardSet {
                 // card node
                 Element cardElement = doc.createElement(CARD_NAME);
                 
+                // id
+                if (card.id != null && !card.id.equals(""))
+                    cardElement.setAttribute(ID_ATTRIBUTE, card.id);
+                 
                 // front node
                 Element frontElement = doc.createElement(FRONT_NAME);
                 frontElement.appendChild(doc.createTextNode(card.front));

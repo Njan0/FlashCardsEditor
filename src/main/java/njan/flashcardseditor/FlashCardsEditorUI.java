@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package njan.flashcardseditor;
 
 import java.io.File;
@@ -333,11 +328,13 @@ public class FlashCardsEditorUI extends javax.swing.JFrame {
      * Save current card set.
      */
     private void save() {
+        // get all cards in ComboBox
         List<Card> cards = new ArrayList<>();
         for (int i = 0; i < jComboBoxCard.getItemCount(); ++i) {
             cards.add(jComboBoxCard.getItemAt(i));
         }
         
+        // save to xml file
         File file = new File(jTextFieldPath.getText());
         new CardSet(jTextFieldSetName.getText(), getTextSizeValue(), cards).save(file);
     }
@@ -398,11 +395,13 @@ public class FlashCardsEditorUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBoxCardActionPerformed
 
     private void jButtonApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplyActionPerformed
+        // apply changes to card
         Card card = (Card)jComboBoxCard.getSelectedItem();
         card.front = jTextAreaFront.getText();
         card.back = jTextAreaBack.getText();
         card.id = jTextFieldID.getText();
         
+        // Update ComboBox to show changes
         jComboBoxCard.updateUI();
     }//GEN-LAST:event_jButtonApplyActionPerformed
 
